@@ -6,7 +6,7 @@ const storyIds = await getStories()
 const stories = await Promise.all(storyIds.map(id => getStory(id.toString())))
 ---
 
-<Layout title="Welcome to Astro!">
+<Layout title="Astro Hacker News">
 	<main>Hello Astro</main>
 	{stories.map(story => <Card>
 		<a href={`/${story.id}`}>

@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getStory, getComment } from './api'
+
+const { id } = Astro.params
+
+const story = await getStory(id as string)
+const comments = await Promise.all(story.kids.map(id => getComment(id.toString())))
+---
+
+<Layout title="Welcome to Astro!">
+  <h1>{story.title}</h1>
+  {comments.map(comment =>
+  <Fragment set:html={comment.text} />)}
+</Layout>

@@ -5,7 +5,7 @@ import { getStory, getComment } from './api'
 const { id } = Astro.params
 
 const story = await getStory(id as string)
-const comments = await Promise.all(story.kids.map(id => getComment(id.toString())))
+const comments = await Promise.all((story.kids ?? []).map(id => getComment(id.toString())))
 ---
 
 <Layout title="Welcome to Astro!">

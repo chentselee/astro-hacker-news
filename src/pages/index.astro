@@ -1,16 +1,54 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { Card } from '../components/Card'
-import { getStories, getStory } from './api'
-const storyIds = await getStories()
-const stories = await Promise.all(storyIds.map(id => getStory(id.toString())))
+import Layout from "../layouts/Layout.astro";
+import { Card } from "../components/Card";
+import { getStories } from "./api";
+const page = parseInt(Astro.url.searchParams.get("page") || "1");
+const stories = await getStories({ page });
 ---
 
 <Layout title="Astro Hacker News">
 	<main>Hello Astro</main>
-	{stories.map(story => <Card>
-		<a href={`/${story.id}`}>
-			{story.title}
-		</a>
-	</Card>)}
+	{
+		stories.map((story) => (
+			<Card>
+				<a href={`/${story.id}`}>{story.title}</a>
+			</Card>
+		))
+	}
+	<div class="pagination">
+		{
+			page > 1 && (
+				<a href={`?page=${page - 1}`} class="prev">
+					prev
+				</a>
+			)
+		}
+		<div class="page">page: {page}</div>
+		<a href={`?page=${page + 1}`} class="next">next</a>
+	</div>
 </Layout>
+
+<style>
+	.pagination {
+		margin-block-start: 0.5rem;
+		display: grid;
+		grid-template-areas: "prev page next";
+		grid-template-columns: 1fr auto 1fr;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.prev {
+		grid-area: prev;
+		justify-self: end;
+	}
+
+	.page {
+		grid-area: page;
+	}
+
+	.next {
+		grid-area: next;
+	}
+</style>

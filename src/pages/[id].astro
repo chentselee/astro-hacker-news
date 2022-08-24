@@ -1,15 +1,16 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { getStory, getComment } from './api'
+import Layout from "../layouts/Layout.astro";
+import { getStory, getComment } from "./api";
 
-const { id } = Astro.params
+const { id } = Astro.params;
 
-const story = await getStory(id as string)
-const comments = await Promise.all((story.kids ?? []).map(id => getComment(id.toString())))
+const story = await getStory(id as string);
+const comments = await Promise.all(
+  (story.kids ?? []).map((id) => getComment(id.toString()))
+);
 ---
 
 <Layout title={`Astro Hacker News - ${story.title}`}>
   <h1>{story.title}</h1>
-  {comments.map(comment =>
-  <Fragment set:html={comment.text} />)}
+  {comments.map((comment) => <Fragment set:html={comment.text} />)}
 </Layout>

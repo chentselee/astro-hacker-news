@@ -1,7 +1,17 @@
-export const getStories = async (): Promise<number[]> => {
-  const res = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
-  const json: number[] = await res.json()
-  return json.slice(0, 10)
+import axios from 'axios'
+
+interface StoryBrief {
+  id: number
+  title: string
+}
+
+type GetStoriesSearchParams = {
+  page: number
+}
+
+export const getStories = async ({ page = 1 }: GetStoriesSearchParams): Promise<StoryBrief[]> => {
+  const { data } = await axios.get(`https://api.hackerwebapp.com/news?page=${page}`)
+  return data
 }
 
 interface Story {
@@ -18,13 +28,11 @@ interface Comment {
 }
 
 export const getStory = async (id: string): Promise<Story> => {
-  const res = await fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
-  const json = await res.json()
-  return json
+  const { data } = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
+  return data
 }
 
 export const getComment = async (id: string): Promise<Comment> => {
-  const res = await fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
-  const json = await res.json()
-  return json
+  const { data } = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
+  return data
 }

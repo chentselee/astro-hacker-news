@@ -10,8 +10,7 @@ type GetStoriesSearchParams = {
 }
 
 export const getStories = async ({ page = 1 }: GetStoriesSearchParams): Promise<StoryBrief[]> => {
-  const res = await fetchAPI(`https://api.hackerwebapp.com/news?page=${page}`)
-  const json = await res.json()
+  const json = await fetchAPI(`https://api.hackerwebapp.com/news?page=${page}`)
   return json
 }
 
@@ -29,13 +28,11 @@ interface Comment {
 }
 
 export const getStory = async (id: string): Promise<Story> => {
-  const res = await fetchAPI(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
-  const json = await res.json()
+  const json = await fetchAPI(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
   return json
 }
 
 export const getComment = async (id: string): Promise<Comment> => {
-  const res = await fetchAPI(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
-  const json = await res.json()
+  const json = await fetchAPI(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
   return json
 }

@@ -1,6 +1,7 @@
 # build output
 dist/
 .output/
+.netlify/edge-functions
 
 # dependencies
 node_modules/

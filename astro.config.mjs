@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import preact from "@astrojs/preact";
 import netlify from "@astrojs/netlify/functions";
+import vercel from '@astrojs/vercel'
 
 import cloudflare from "@astrojs/cloudflare";
 
@@ -8,5 +9,5 @@ import cloudflare from "@astrojs/cloudflare";
 export default defineConfig({
   integrations: [preact()],
   output: 'server',
-  adapter: process.env.ADAPTER === 'netlify' ? netlify() : cloudflare()
+  adapter: process.env.ADAPTER === 'netlify' ? netlify() : process.env.ADAPTER === 'vercel' ? vercel() : cloudflare()
 });

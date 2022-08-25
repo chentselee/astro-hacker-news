@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { fetchAPI } from '../lib/fetchAPI'
 
 interface StoryBrief {
   id: number
@@ -10,8 +10,9 @@ type GetStoriesSearchParams = {
 }
 
 export const getStories = async ({ page = 1 }: GetStoriesSearchParams): Promise<StoryBrief[]> => {
-  const { data } = await axios.get(`https://api.hackerwebapp.com/news?page=${page}`)
-  return data
+  const res = await fetchAPI(`https://api.hackerwebapp.com/news?page=${page}`)
+  const json = await res.json()
+  return json
 }
 
 interface Story {
@@ -28,11 +29,13 @@ interface Comment {
 }
 
 export const getStory = async (id: string): Promise<Story> => {
-  const { data } = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
-  return data
+  const res = await fetchAPI(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
+  const json = await res.json()
+  return json
 }
 
 export const getComment = async (id: string): Promise<Comment> => {
-  const { data } = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
-  return data
+  const res = await fetchAPI(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
+  const json = await res.json()
+  return json
 }

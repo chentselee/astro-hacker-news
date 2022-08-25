@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 import preact from "@astrojs/preact";
-import netlify from "@astrojs/netlify/edge-functions";
+import netlify from "@astrojs/netlify/functions";
 
 import cloudflare from "@astrojs/cloudflare";
 

@@ -14,7 +14,12 @@ const stories = await getStories({ page });
 					stories.map((story, index) => (
 						<li class="px-2 py-1">
 							<span>{index + 1}.</span>
-							<a href={`/${story.id}`}>{story.title}</a>
+							<a
+								href={`/${story.id}`}
+								class="before:content-['▲'] before:text-stone-400 before:text-[4px] before:relative before:bottom-0.5"
+							>
+								{story.title}
+							</a>
 						</li>
 					))
 				}

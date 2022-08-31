@@ -11,17 +11,45 @@ const stories = await getStories({ page });
 		<div class="bg-[#f6f6ef] py-2 text-xs">
 			<ol>
 				{
-					stories.map((story, index) => (
-						<li class="px-2 py-1">
-							<span>{index + 1}.</span>
-							<a
-								href={`/${story.id}`}
-								class="before:content-['▲'] before:text-stone-400 before:text-[4px] before:relative before:bottom-0.5"
-							>
-								{story.title}
-							</a>
-						</li>
-					))
+					stories.map((story, index) => {
+						let host = "";
+						try {
+							host = new URL(story.url).host;
+						} catch {
+							host = "";
+						}
+						return (
+							<li class="px-2 py-1 flex gap-0.5 items-start">
+								<span class="after:content-['▲'] after:text-stone-400 after:text-[4px] text-stone-500 relative inline-flex items-center bottom-[3px]">
+									{index + 1}.
+								</span>
+								<div>
+									<div class="flex gap-1 items-baseline">
+										<a href={`${story.url}`} target="_blank">
+											{story.title}
+										</a>
+										{host && (
+											<a href="#" class="hover:underline">
+												<span class="text-stone-500 text-[4px]">({host})</span>
+											</a>
+										)}
+									</div>
+									<div class="text-stone-500 text-[4px] flex items-center gap-1">
+										<span>
+											{story.points} by {story.user}
+										</span>
+										<a href={`/${story.id}`} class="hover:underline">
+											{story.time_ago}
+										</a>
+										{" | "}
+										<a href={`/${story.id}`} class="hover:underline">
+											{story.comments_count} comments
+										</a>
+									</div>
+								</div>
+							</li>
+						);
+					})
 				}
 			</ol>
 			<div class="flex space-x-2 px-8">

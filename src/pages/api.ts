@@ -3,6 +3,13 @@ import { fetchAPI } from '../lib/fetchAPI'
 interface StoryBrief {
   id: number
   title: string
+  points: number
+  user: string
+  time: number
+  time_ago: string
+  comments_count: number
+  url: string
+  domain: string
 }
 
 type GetStoriesSearchParams = {

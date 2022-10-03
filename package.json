@@ -10,12 +10,12 @@
     "astro": "astro"
   },
   "devDependencies": {
-    "@astrojs/cloudflare": "^1.0.1",
-    "@astrojs/netlify": "^1.0.1",
-    "@astrojs/preact": "^1.0.2",
-    "@astrojs/tailwind": "^1.0.0",
-    "@astrojs/vercel": "^1.0.1",
-    "astro": "^1.0.8",
-    "preact": "^10.6.5"
+    "@astrojs/cloudflare": "^1.0.2",
+    "@astrojs/netlify": "^1.1.0",
+    "@astrojs/preact": "^1.1.1",
+    "@astrojs/tailwind": "^1.0.1",
+    "@astrojs/vercel": "^1.0.2",
+    "astro": "^1.4.3",
+    "preact": "^10.11.0"
   }
 }

@@ -17,8 +17,8 @@ const stories = await getStories({ page });
           host = "";
         }
         return (
-          <li class="px-2 py-1 flex gap-0.5 items-start">
-            <Title>{index + 1}</Title>
+          <li class="px-2 py-1 flex gap-0.5 items-baseline">
+            <Title>{index + 1}.</Title>
             <div>
               <div class="flex gap-1 items-baseline">
                 <a href={`${story.url}`} target="_blank">

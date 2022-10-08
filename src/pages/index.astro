@@ -1,62 +1,56 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { getStories } from "./api";
+import Title from "../components/Title.astro";
+import { getStories } from "../lib/api";
 const page = parseInt(Astro.url.searchParams.get("page") || "1");
 const stories = await getStories({ page });
 ---
 
 <Layout title="Astro Hacker News">
-	<main class="max-w-screen-lg mx-auto mt-2">
-		<h1 class="bg-orange-600 font-bold text-sm px-1 py-0.5">Hacker News</h1>
-		<div class="bg-[#f6f6ef] py-2 text-xs">
-			<ol>
-				{
-					stories.map((story, index) => {
-						let host = "";
-						try {
-							host = new URL(story.url).host;
-						} catch {
-							host = "";
-						}
-						return (
-							<li class="px-2 py-1 flex gap-0.5 items-start">
-								<span class="after:content-['▲'] after:text-stone-400 after:text-[4px] text-stone-500 relative inline-flex items-center bottom-[3px]">
-									{index + 1}.
-								</span>
-								<div>
-									<div class="flex gap-1 items-baseline">
-										<a href={`${story.url}`} target="_blank">
-											{story.title}
-										</a>
-										{host && (
-											<a href="#" class="hover:underline">
-												<span class="text-stone-500 text-[4px]">({host})</span>
-											</a>
-										)}
-									</div>
-									<div class="text-stone-500 text-[4px] flex items-center gap-1">
-										<span>
-											{story.points} by {story.user}
-										</span>
-										<a href={`/${story.id}`} class="hover:underline">
-											{story.time_ago}
-										</a>
-										{" | "}
-										<a href={`/${story.id}`} class="hover:underline">
-											{story.comments_count} comments
-										</a>
-									</div>
-								</div>
-							</li>
-						);
-					})
-				}
-			</ol>
-			<div class="flex space-x-2 px-8">
-				{page > 1 && <a href={`?page=${page - 1}`}>prev</a>}
-				<a href={`?page=${page + 1}`}>next</a>
-				<div>page: {page}</div>
-			</div>
-		</div>
-	</main>
+  <ol>
+    {
+      stories.map((story, index) => {
+        let host = "";
+        try {
+          host = new URL(story.url).host;
+        } catch {
+          host = "";
+        }
+        return (
+          <li class="px-2 py-1 flex gap-0.5 items-start">
+            <Title>{index + 1}</Title>
+            <div>
+              <div class="flex gap-1 items-baseline">
+                <a href={`${story.url}`} target="_blank">
+                  {story.title}
+                </a>
+                {host && (
+                  <a href="#" class="hover:underline">
+                    <span class="text-stone-500 text-[4px]">({host})</span>
+                  </a>
+                )}
+              </div>
+              <div class="text-stone-500 text-[4px] flex items-center gap-1">
+                <span>
+                  {story.points} by {story.user}
+                </span>
+                <a href={`/${story.id}`} class="hover:underline">
+                  {story.time_ago}
+                </a>
+                {" | "}
+                <a href={`/${story.id}`} class="hover:underline">
+                  {story.comments_count} comments
+                </a>
+              </div>
+            </div>
+          </li>
+        );
+      })
+    }
+  </ol>
+  <div class="flex space-x-2 px-8">
+    {page > 1 && <a href={`?page=${page - 1}`}>prev</a>}
+    <a href={`?page=${page + 1}`}>next</a>
+    <div>page: {page}</div>
+  </div>
 </Layout>

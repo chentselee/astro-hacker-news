@@ -1,0 +1,88 @@
+---
+import Triangle from "./Triangle.astro";
+import type { Comment } from "../models/Item";
+import { getItem } from "../lib/api";
+
+interface Props {
+  comment: Comment;
+  next?: number;
+  previous?: number;
+  parent?: number;
+  root?: number;
+  isNested: boolean;
+}
+
+const { comment, next, previous, parent, root, isNested } = Astro.props;
+
+const comments = (
+  await Promise.all((comment.kids ?? []).map((kid) => getItem(kid.toString())))
+).filter((item) => item.type === "comment") as unknown as Comment[];
+---
+
+<div
+  class="grid items-baseline gap-x-1"
+  style="grid-template-columns: auto 1fr; grid-template-rows: auto auto auto;"
+  id={comment.id.toString()}
+>
+  <Triangle />
+  <h2 class="text-xs text-gray-400 flex gap-0.5">
+    <span>
+      {comment.by}
+    </span>
+    {
+      isNested && root && (
+        <Fragment>
+          <span>|</span>
+          <a href={`#${root}`}>root</a>
+        </Fragment>
+      )
+    }
+    {
+      parent && (
+        <Fragment>
+          <span>|</span>
+          <a href={`#${parent}`}>parent</a>
+        </Fragment>
+      )
+    }
+    {
+      next && (
+        <Fragment>
+          <span>|</span>
+          <a href={`#${next}`}>next</a>
+        </Fragment>
+      )
+    }
+    {
+      previous && (
+        <Fragment>
+          <span>|</span>
+          <a href={`#${previous}`}>previous</a>
+        </Fragment>
+      )
+    }
+    <span>[-]</span>
+  </h2>
+  <div
+    set:html={comment.text}
+    class="text-sm flex flex-col gap-2"
+    style="grid-column: 2 / 3;"
+  >
+  </div>
+  <div style="grid-column: 2 / 3;">
+    {
+      comments.map((_comment, index) => (
+        <Astro.self
+          comment={_comment}
+          next={
+            index !== comments.length - 1 ? comments[index + 1].id : undefined
+          }
+          previous={index !== 0 ? comments[index - 1].id : undefined}
+          parent={comment.id}
+          root={root}
+          isNested={true}
+        />
+      ))
+    }
+  </div>
+</div>

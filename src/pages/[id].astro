@@ -1,16 +1,56 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { getStory, getComment } from "./api";
+import Triangle from "../components/Triangle.astro";
+import Comment from "../components/Comment.astro";
+import { getItem } from "../lib/api";
+import type {
+  Comment as CommentType,
+  Story as StoryType,
+} from "../models/Item";
 
 const { id } = Astro.params;
 
-const story = await getStory(id as string);
-const comments = await Promise.all(
-  (story.kids ?? []).map((id) => getComment(id.toString()))
-);
+const story = (await getItem(id as string)) as unknown as StoryType;
+const comments = (
+  await Promise.all((story.kids ?? []).map((id) => getItem(id.toString())))
+).filter((item) => item.type === "comment") as unknown as CommentType[];
 ---
 
 <Layout title={`Astro Hacker News - ${story.title}`}>
-  <h1>{story.title}</h1>
-  {comments.map((comment) => <Fragment set:html={comment.text} />)}
+  <div class="px-2">
+    <div class="flex gap-1">
+      <Triangle />
+      <div>
+        <h1 class="text-sm text-gray-400">
+          {story.title}
+        </h1>
+        <div class="text-xs text-gray-400 mt-1">
+          <span>
+            {story.score} points by {story.by}
+            ago
+          </span>
+          <span>|</span>
+          <span>{story.descendants} comments</span>
+        </div>
+        <div
+          class="text-sm text-gray-400 mt-1 flex flex-col gap-3"
+          set:html={story.text}
+        >
+        </div>
+      </div>
+    </div>
+    {
+      comments.map((comment, index) => (
+        <Comment
+          comment={comment}
+          next={
+            index !== comments.length - 1 ? comments[index + 1].id : undefined
+          }
+          previous={index !== 0 ? comments[index - 1].id : undefined}
+          root={comment.id}
+          isNested={false}
+        />
+      ))
+    }
+  </div>
 </Layout>

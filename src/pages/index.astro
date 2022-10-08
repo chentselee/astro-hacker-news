@@ -2,6 +2,9 @@
 import Layout from "../layouts/Layout.astro";
 import Title from "../components/Title.astro";
 import { getStories } from "../lib/api";
+
+Astro.response.headers.set("Cache-Control", "s-maxage=30, max-age=30");
+
 const page = parseInt(Astro.url.searchParams.get("page") || "1");
 const stories = await getStories({ page });
 ---

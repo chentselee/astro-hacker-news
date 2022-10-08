@@ -8,6 +8,8 @@ import type {
   Story as StoryType,
 } from "../models/Item";
 
+Astro.response.headers.set("Cache-Control", "s-maxage=30, max-age=30");
+
 const { id } = Astro.params;
 
 const story = (await getItem(id as string)) as unknown as StoryType;

@@ -15,7 +15,7 @@
     "@astrojs/preact": "^1.1.1",
     "@astrojs/tailwind": "^1.0.1",
     "@astrojs/vercel": "^1.0.2",
-    "astro": "^1.4.3",
-    "preact": "^10.11.0"
+    "astro": "^1.4.6",
+    "preact": "^10.11.1"
   }
 }

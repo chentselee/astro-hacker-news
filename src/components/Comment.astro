@@ -2,6 +2,7 @@
 import Triangle from "./Triangle.astro";
 import type { Comment } from "../models/Item";
 import { getItem } from "../lib/api";
+import CommentToggle from "./CommentToggle";
 
 interface Props {
   comment: Comment;
@@ -24,7 +25,9 @@ const comments = (
   style="grid-template-columns: auto 1fr; grid-template-rows: auto auto auto;"
   id={comment.id.toString()}
 >
-  <Triangle />
+  <div id={`${comment.id}-triangle`}>
+    <Triangle />
+  </div>
   <h2 class="text-xs text-gray-400 flex gap-0.5">
     <span>
       {comment.by}
@@ -61,15 +64,16 @@ const comments = (
         </Fragment>
       )
     }
-    <span>[-]</span>
+    <CommentToggle client:visible comment={comment} />
   </h2>
   <div
     set:html={comment.text}
     class="text-sm flex flex-col gap-2"
     style="grid-column: 2 / 3;"
+    id={`${comment.id}-text`}
   >
   </div>
-  <div style="grid-column: 2 / 3;">
+  <div style="grid-column: 2 / 3;" id={`${comment.id}-children`}>
     {
       comments.map((_comment, index) => (
         <Astro.self

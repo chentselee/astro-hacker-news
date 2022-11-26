@@ -11,12 +11,14 @@
   },
   "devDependencies": {
     "@astrojs/cloudflare": "^1.0.2",
-    "@astrojs/netlify": "^1.2.0",
+    "@astrojs/deno": "^2.0.0",
+    "@astrojs/netlify": "^1.2.1",
+    "@astrojs/node": "^3.1.0",
     "@astrojs/preact": "^1.2.0",
     "@astrojs/tailwind": "^1.0.1",
     "@astrojs/vercel": "^1.0.2",
-    "astro": "^1.5.0",
-    "preact": "^10.11.2"
+    "astro": "^1.6.11",
+    "preact": "^10.11.3"
   },
   "engines": {
     "node": "^16",
